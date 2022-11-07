@@ -4,25 +4,25 @@ const path = require('path');
 const url = require('url');
 
 http.createServer(function(req, res){
-        
-    let parsed = url.parse(req.url);
-    let filename = path.parse(parsed.pathname);
-    
-    filen = filename.name == "" ? "index":filename.name;
-    ext = filename.ext == "" ? ".html":filename.ext; 
-    dir = filename.dir == "/" ? "":filename.dir + "/";
-    page = filename.name == "" ? "index.html":filename.name;
+    var parsed = url.parse(req.url);
+    var filename = path.parse(parsed.pathname);
 
-    console.log("File", filen);
-    console.log("Ext", ext);
-    console.log("Dir", dir);
-    console.log("Page", page);
-
-    f = (dir + filen + ext).replace("/", "");
-    console.log("checking F", f);
+    filen = filename.name==""?"index":filename.name;
+    ext = filename.ext==""?".html":filename.ext;
+    dir = filename.dir=="/"?"":filename.dir+"/";
+    page = filename.name==""?"index.html":filename.name;
     
-    let mimeTypes = {
-        'html': 'text/html',
+    console.log("filen = ", filen);
+    console.log("ext = ", ext);
+    console.log("dir = ", dir);
+    console.log("page = ", page);
+
+    f = (dir+filen+ext).replace("/","");
+
+    console.log("f = ", f)
+
+    var mimeTypes = {
+        '.html': 'text/html',
         '.js': 'text/javascript',
         '.css': 'text/css',
         '.png': 'image/png',
@@ -31,18 +31,16 @@ http.createServer(function(req, res){
     };
 
     if(f){
-        console.log("if statement")
-            fs.readFile(f, function(err,data){
-                if(page){
-                    if(mimeTypes.hasOwnProperty(ext)){
-                        console.log(mimeTypes[ext]);
-                        res.writeHead(200, { 'Content-Type': mimeTypes[ext] });
-                        res.write("<script>let page = '" + filename.name + "';</script>")
-                        res.end(data, 'utf-8');
-                    }
+        fs.readFile(f, function(err,data){
+            if(page){
+                if(mimeTypes.hasOwnProperty(ext)){
+                    res.writeHead(200, {'Content-Type': mimeTypes[ext]});
+                    res.write("<script>var page='"+filename.name+"';</script>");
+                    res.end(data, 'utf-8');
                 }
-            })
-        }
-    }).listen("8080", function(){
-        console.log("info", 'Server is at port: ' + 8080);
-    })
+            }
+        })
+    }
+}).listen("8080", function(){
+    console.log("info", "Server is running on port : " + 8080);
+})
