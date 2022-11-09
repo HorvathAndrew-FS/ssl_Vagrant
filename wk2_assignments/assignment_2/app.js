@@ -34,9 +34,13 @@ http.createServer(function(req, res){
         fs.readFile(f, function(err,data){
             if(page){
                 if(mimeTypes.hasOwnProperty(ext)){
-                    res.writeHead(200, {'Content-Type': mimeTypes[ext]});
-                    res.write("<script>var page='"+filename.name+"';</script>");
-                    res.end(data, 'utf-8');
+                    // if(ext == '.html'){
+                    //     res.write("<script>var page='"+filename.name+"';</script>");
+                    // }
+                    console.log(mimeTypes[ext]);
+                    // res.writeHead(200, {'Content-Type': mimeTypes[ext]});
+                    // res.write(f);
+                    // res.end(data, 'utf-8');
                 }
             }
         })
