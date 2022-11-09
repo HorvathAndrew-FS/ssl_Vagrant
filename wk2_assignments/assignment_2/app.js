@@ -12,39 +12,30 @@ http.createServer(function(req, res){
     dir = filename.dir=="/"?"":filename.dir+"/";
     page = filename.name==""?"index.html":filename.name;
     
-    console.log("filen = ", filen);
-    console.log("ext = ", ext);
-    console.log("dir = ", dir);
-    console.log("page = ", page);
-
     f = (dir+filen+ext).replace("/","");
 
-    console.log("f = ", f)
-
     var mimeTypes = {
-        '.html': 'text/html',
-        '.js': 'text/javascript',
-        '.css': 'text/css',
-        '.png': 'image/png',
-        '.jpg': 'image/jpg',
-        '.gif': 'image/gif',
+        '.html': ['text/html',""],
+        '.js': ['text/javascript',""],
+        '.css': ['text/css','utf8'],
+        '.png': ['image/png','Base64'],
+        '.jpg': ['image/jpeg','Base64'],
+        ".ico": ['image/x-icon','Base64'],
+        '.gif': ['image/gif','Base64'],
     };
 
     if(f){
         fs.readFile(f, function(err,data){
-            if(page){
-                if(mimeTypes.hasOwnProperty(ext)){
-                    // if(ext == '.html'){
-                    //     res.write("<script>var page='"+filename.name+"';</script>");
-                    // }
-                    console.log(mimeTypes[ext]);
-                    // res.writeHead(200, {'Content-Type': mimeTypes[ext]});
-                    // res.write(f);
-                    // res.end(data, 'utf-8');
-                }
-            }
+                res.writeHead(200, {'Content-Type': mimeTypes[ext][0]});
+                    
+                    if(ext==".html"){
+                        res.write("<script>var page='"+filen+"';</script>")
+                    }
+                       res.end(data, mimeTypes[ext][1]);
+                       console.log(mimeTypes[ext][0]);
         })
     }
+
 }).listen("8080", function(){
     console.log("info", "Server is running on port : " + 8080);
 })
