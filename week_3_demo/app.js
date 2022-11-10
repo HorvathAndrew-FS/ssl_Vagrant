@@ -43,7 +43,6 @@ router.get('/store', (req, res) => {
 
 router.post('/login', (req, res) => {
     let errors = [];
-    let test = "this is a test";
     if(req.body.email == ""){
         errors.push('Email is required');
     }
@@ -56,9 +55,5 @@ router.post('/login', (req, res) => {
     if(!/^([a-zA-Z0-9@*#]{8,15})$/.test(req.body.password)){
         errors.push('Password is not valid!');
     }
-
-    res.render('pages/index', {pagename: 'Home', errors: errors});
-    for (x in errors) {
-        console.log(errors[x]);
-    }
+    res.render('pages/index', {pagename: 'Home', errors:errors, success: "Success"});
 })

@@ -17,11 +17,12 @@
     </head>
     <body>
                   <%if(typeof(errors)!= "undefined") {%>
-                    
-                    <% for(x in errors) {%>
-                       <br><span id="error-display"><%errors[x]%>Errors</span>
-                    <%}%>
-                <%}%>
+                    <%- console.log(errors); %> 
+                        <% for( let i = 0; i < errors.length; i++ ) { %>
+                       <br><span id="error-display"><%=errors[i]%></span> 
+                        <% } %>
+                       <% } %> 
+                
         <header>
             <h1 class="site-heading text-center text-faded d-none d-lg-block">
                 <span class="site-heading-upper text-primary mb-3">A Free Bootstrap Business Theme</span>
