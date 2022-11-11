@@ -40,6 +40,9 @@ router.get('/products', (req, res) => {
 router.get('/store', (req, res) => {
     res.render('pages/store', {pagename: 'Store'});
 })
+router.get('/register', (req, res) => {
+    res.render('pages/register', {pagename: 'Register'});
+})
 
 router.post('/login', (req, res) => {
     let errors = [];
@@ -56,4 +59,23 @@ router.post('/login', (req, res) => {
         errors.push('Password is not valid!');
     }
     res.render('pages/index', {pagename: 'Home', errors:errors, success: "Success"});
+})
+
+router.post('/register', (req, res) => {
+    let errors = [];
+
+    if(req.body.email == ""){
+        errors.push('Email is required');
+    }
+    if(req.body.password == ""){
+        errors.push('Password is required');
+    }
+    if(!/^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/.test(req.body.email)){
+        errors.push('Email is not valid!');
+    }
+    if(!/^([a-zA-Z0-9@*#]{8,15})$/.test(req.body.password)){
+        errors.push('Password is not valid!');
+    }
+    res.render('pages/register', {pagename: 'Home', errors:errors, success: "Success"});
+
 })
