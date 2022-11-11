@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+        <meta name="description" content="" />
+        <meta name="author" content="" />
+        <title>Business Casual - Start Bootstrap Theme</title>
+        <link rel="icon" type="image/x-icon" href="assets/favicon.ico" />
+        <!-- Font Awesome icons (free version)-->
+        <script src="https://use.fontawesome.com/releases/v6.1.0/js/all.js" crossorigin="anonymous"></script>
+        <!-- Google fonts-->
+        <link href="https://fonts.googleapis.com/css?family=Raleway:100,100i,200,200i,300,300i,400,400i,500,500i,600,600i,700,700i,800,800i,900,900i" rel="stylesheet" />
+        <link href="https://fonts.googleapis.com/css?family=Lora:400,400i,700,700i" rel="stylesheet" />
+        <!-- Core theme CSS (includes Bootstrap)-->
+        <link href="css/styles.css" rel="stylesheet" />
+    </head>
+<body>
+    <header>
+            <h1 class="site-heading text-center text-faded d-none d-lg-block">
+                <span class="site-heading-upper text-primary mb-3">A Free Bootstrap Business Theme</span>
+                <span class="site-heading-lower">Business Casual</span>
+            </h1>
+        </header>
+            <%- include("../partials/nav.ejs");%> 
+
+            <%if(typeof(errors)!= "undefined") {%>
+                <%- console.log(errors); %> 
+                    <% for( let i = 0; i < errors.length; i++ ) { %>
+                       <br><span id="error-display"><%=errors[i]%></span> 
+                    <% } %>
+                <% } %> 
+                       
+<!-- <div>
+            <form action="/register" method="POST">
+                <label for="fName" >First Name</label>
+                <input class="" type="text" name="fName" placeholder="First Name">
+                <label for="lName">Last Name</label>
+                <input class="" type="text" name="lName" placeholder="Last Name">
+                <label for="address">Address</label>
+                <input class="" type="text" name="address" placeholder="Address">
+                <l
+                <button class="btn btn-primary" type="submit" >Register</button>
+            </form>
+        </div> -->
+
+        <section class="signup-section" id="signup">
+            <div class="container px-4 px-lg-5">
+                <div class="row gx-4 gx-lg-5">
+                    <div class="col-md-10 col-lg-8 mx-auto">
+                        <h2 class="mb-5 form-h2 text-center">Create an account to receive updates!</h2>
+                     
+                        <% if(typeof(errors) != "undefined") {%>
+                        
+                            <form class="bg-light rounded p-4" action="/register" method="POST">
+                             
+                          <div class="form-row">
+                            <div class="form-group col-md-6">
+                                <label class="form-label" for="fName">First Name</label>
+                                <input type="text" class="form-control" name="fName" placeholder="First Name"/><span class="form-error"><%= errors.fnameMsg %></span>
+                                </div>
+                                <div class="form-group col-md-6">
+                                <label class="form-label" for="lName">Last Name</label>
+                                <input type="text" class="form-control" name="lName" placeholder="Last Name"/><span class="form-error"><%= errors.lnameMsg %></span>
+                                
+                            </div>
+                            <div class="form-group col-md-8">
+                              <label class="form-label" for="userEmail">Email</label>
+                              <input type="email" class="form-control" id="userEmail" name="userEmail" placeholder="Enter Your Email">
+                              <span class="form-error"><%= errors.emailMsg %></span>
+                            </div>
+                            <div class="form-group col-md-8">
+                              <label class="form-label" for="userPassword">Password</label>
+                              <input type="password" class="form-control" name="userPassword" placeholder="Password">
+                              <span class="form-error"><%= errors.passwordMsg %></span>
+                            </div>
+                              <div class="form-group col-md-8">
+                              <label class="form-label" for="userPassMatch">Re-Enter Password</label>
+                              <input type="password" class="form-control" name="userPassMatch" placeholder="Re-Enter Password">
+                              <span class="form-error"> <%= errors.passMatchMsg %></span>
+                            </div>
+                          </div>
+                          <div class="form-group col-md-10">
+                            <label class="form-label" for="userAddress">Address</label>
+                            <input type="text" class="form-control" name="userAddress" placeholder="1234 Main St">
+                            <span class="form-error"><%= errors.addressMsg %></span>
+                          </div>
+                          <div class="form-row">
+                            <div class="form-group col-md-4">
+                              <label class="form-label" for="userCity">City</label>
+                              <input type="text" class="form-control" name="userCity">
+                              <span class="form-error"><%= errors.cityMsg %></span>
+                            </div>
+                            <div class="form-group col-md-4">
+                              <label class="form-label" for="userState">State</label>
+                              <input name="userState" class="form-control">
+                              <span class="form-error"><%= errors.stateMsg %></span> 
+                            </div>
+                            <div class="form-group col-md-2 mb-4">
+                              <label class="form-label" for="userZip">Zip</label>
+                              <input type="text" class="form-control" name="userZip">
+                              <span class="form-error"><%= errors.zipMsg %></span>
+                            </div>
+                          </div>
+
+                          <button type="submit" class="btn btn-primary">Sign Up!</button>
+                        </form>
+
+                        <% }else{%>
+                
+                            <form class="bg-light rounded p-4" method="POST" action="/register">
+                             
+                          <div class="form-row">
+                            <div class="form-group col-md-8">
+                                <label class="form-label" for="fName">First Name</label>
+                                <input type="text" class="form-control" name="fName" placeholder="First Name">
+                                
+                                <label class="form-label" for="lName">Last Name</label>
+                                <input type="text" class="form-control" name="lName" placeholder="Last Name">
+                            </div>
+                          </div>
+                          <div class="form-group col-md-10">
+                            <label class="form-label" for="inputAddress">Address</label>
+                            <input type="text" class="form-control" name="inputAddress" placeholder="1234 Main St">
+                           
+                          </div>
+                          <div class="form-row">
+                            <div class="form-group col-md-4">
+                              <label class="form-label" for="inputCity">City</label>
+                              <input type="text" class="form-control" name="inputCity">
+                            
+                            </div>
+                            <div class="form-group col-md-4">
+                              <label class="form-label" for="inputState">State</label>
+                              <input name="inputState" class="form-control">
+                            
+                            </div>
+                            <div class="form-group col-md-2 mb-2">
+                              <label class="form-label" for="inputZip">Zip</label>
+                              <input type="text" class="form-control" name="inputZip">
+                            </div>
+                            <div class="form-group col-md-4 mb-2">
+                                <label class="form-label" for="age">Please choose an age range</label>
+                                    <select>
+                                        <option value="" disabled selected>Age</option>
+                                        <option value="20-30">20-30</option>
+                                        <option value="31-40">31-40</option>
+                                        <option value="41-50">41-49</option>
+                                        <option value="50+">50+</option>
+                                    </select>
+                            </div>
+                            <div class="form-group col-md-2 mb-2">
+                                <label for="age1">20</label>
+                                    <input type="radio" id="age1" name="age" value="20">
+                                <label for="age2">30</label>
+                                    <input type="radio" id="age2" name="age" value="30">
+                                <label for="age3">40</label>
+                                    <input type="radio" id="age3" name="age" value="40">
+  
+                            </div>
+                          </div>
+
+                          <button type="submit" class="btn btn-primary">Sign Up!</button>
+                        </form>
+                        <% } %>
+                            
+                    </div>
+                </div>
+            </div>
+        </section>
+
+
+    </body>
