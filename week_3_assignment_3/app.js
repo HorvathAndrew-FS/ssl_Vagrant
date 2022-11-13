@@ -83,7 +83,7 @@ router.post('/register', (req, res) => {
         errors.state = 'State is Not Valid!!';
     }
     if(!/^\b\d{5}(-\d{4})?\b$/.test(req.body.zip)){
-        errors.zip = 'State is Not Valid!!';
+        errors.zip = 'Zip is Not Valid!!';
     }
     if(req.body.age == "0"){
         errors.age = 'Please select your age!';
@@ -108,7 +108,4 @@ router.post('/register', (req, res) => {
         console.log("app.js", success);
     }
     
-    
-
-  
 })
