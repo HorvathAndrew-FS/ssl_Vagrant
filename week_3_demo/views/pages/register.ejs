@@ -22,152 +22,184 @@
                 <span class="site-heading-lower">Business Casual</span>
             </h1>
         </header>
+            <!-- include for the main navigation -->
             <%- include("../partials/nav.ejs");%> 
 
-            <%if(typeof(errors)!= "undefined") {%>
-                <%- console.log(errors); %> 
+            <!--conditional to check if errors has values or is defined of the small login form -->
+            <%if(typeof(errors)!= "undefined") {%> 
                     <% for( let i = 0; i < errors.length; i++ ) { %>
                        <br><span id="error-display"><%=errors[i]%></span> 
                     <% } %>
-                <% } %> 
-                       
-<!-- <div>
-            <form action="/register" method="POST">
-                <label for="fName" >First Name</label>
-                <input class="" type="text" name="fName" placeholder="First Name">
-                <label for="lName">Last Name</label>
-                <input class="" type="text" name="lName" placeholder="Last Name">
-                <label for="address">Address</label>
-                <input class="" type="text" name="address" placeholder="Address">
-                <l
-                <button class="btn btn-primary" type="submit" >Register</button>
-            </form>
-        </div> -->
-
+                <% } %>
+                
+            
+                    
         <section class="signup-section" id="signup">
             <div class="container px-4 px-lg-5">
                 <div class="row gx-4 gx-lg-5">
                     <div class="col-md-10 col-lg-8 mx-auto">
                         <h2 class="mb-5 form-h2 text-center">Create an account to receive updates!</h2>
-                     
+                        <!--conditional for the main registration form to check if errors is defined-->
                         <% if(typeof(errors) != "undefined") {%>
                         
-                            <form class="bg-light rounded p-4" action="/register" method="POST">
-                             
-                          <div class="form-row">
-                            <div class="form-group col-md-6">
-                                <label class="form-label" for="fName">First Name</label>
-                                <input type="text" class="form-control" name="fName" placeholder="First Name"/><span class="form-error"><%= errors.fnameMsg %></span>
-                                </div>
-                                <div class="form-group col-md-6">
-                                <label class="form-label" for="lName">Last Name</label>
-                                <input type="text" class="form-control" name="lName" placeholder="Last Name"/><span class="form-error"><%= errors.lnameMsg %></span>
-                                
-                            </div>
-                            <div class="form-group col-md-8">
-                              <label class="form-label" for="userEmail">Email</label>
-                              <input type="email" class="form-control" id="userEmail" name="userEmail" placeholder="Enter Your Email">
-                              <span class="form-error"><%= errors.emailMsg %></span>
-                            </div>
-                            <div class="form-group col-md-8">
-                              <label class="form-label" for="userPassword">Password</label>
-                              <input type="password" class="form-control" name="userPassword" placeholder="Password">
-                              <span class="form-error"><%= errors.passwordMsg %></span>
-                            </div>
-                              <div class="form-group col-md-8">
-                              <label class="form-label" for="userPassMatch">Re-Enter Password</label>
-                              <input type="password" class="form-control" name="userPassMatch" placeholder="Re-Enter Password">
-                              <span class="form-error"> <%= errors.passMatchMsg %></span>
-                            </div>
-                          </div>
-                          <div class="form-group col-md-10">
-                            <label class="form-label" for="userAddress">Address</label>
-                            <input type="text" class="form-control" name="userAddress" placeholder="1234 Main St">
-                            <span class="form-error"><%= errors.addressMsg %></span>
-                          </div>
-                          <div class="form-row">
-                            <div class="form-group col-md-4">
-                              <label class="form-label" for="userCity">City</label>
-                              <input type="text" class="form-control" name="userCity">
-                              <span class="form-error"><%= errors.cityMsg %></span>
-                            </div>
-                            <div class="form-group col-md-4">
-                              <label class="form-label" for="userState">State</label>
-                              <input name="userState" class="form-control">
-                              <span class="form-error"><%= errors.stateMsg %></span> 
-                            </div>
-                            <div class="form-group col-md-2 mb-4">
-                              <label class="form-label" for="userZip">Zip</label>
-                              <input type="text" class="form-control" name="userZip">
-                              <span class="form-error"><%= errors.zipMsg %></span>
-                            </div>
-                          </div>
+                            <form class="bg-light rounded p-4 mb-4" id="registration-form" method="POST" action="/register">
+                                <div class="form-group col-md-8 mb-2">
+                                    <!--conditional for the main registration form to check if success is defined after successful validation-->    
+                                    <% if(typeof(success) != "undefined") {%>
+                                        <span class="form-success">Thank You for registering!</span>
+                                    <% } %>
 
-                          <button type="submit" class="btn btn-primary">Sign Up!</button>
-                        </form>
+                                </div> 
+                                <!--each input has a span to display the error below the input when the input is invalid-->
+                                <div class="form-group col-md-8 mb-2">
+                                    <label class="form-label" for="fName">First Name</label>
+                                    <input type="text" class="form-control" name="fName" placeholder="First Name">
+                                        <span class="form-error mb-2"><%= errors.fName %></span>
+                                </div>
+
+                                <div class="form-group col-md-8 mb-2">
+                                    <label class="form-label" for="lName">Last Name</label>
+                                    <input type="text" class="form-control" name="lName" placeholder="Last Name">
+                                        <span class="form-error mb-2"><%= errors.lName %></span>
+                                </div>
+                                
+                                <div class="form-group col-md-8 mb-2">
+                                    <label class="form-label" for="address">Address</label>
+                                    <input type="text" class="form-control" name="address" placeholder="Address">
+                                        <span class="form-error mb-2"><%= errors.address %></span>
+                                </div>
+                                
+                                <div class="form-group col-md-4 mb-2">
+                                    <label class="form-label" for="city">City</label>
+                                    <input type="text" class="form-control" name="city" placeholder="City">
+                                        <span class="form-error mb-2"><%= errors.city %></span>
+                                </div>
+                            
+                                <div class="form-group col-md-4 mb-2">
+                                    <label class="form-label" for="state">State</label>
+                                    <input type="text" class="form-control" name="state" placeholder="State">
+                                        <span class="form-error mb-2"><%= errors.state %></span>
+                                </div>
+                            
+                                <div class="form-group col-md-2 mb-2">
+                                    <label class="form-label" for="zip">Zip</label>
+                                    <input type="text" class="form-control" name="zip" placeholder="Zip Code">
+                                        <span class="form-error mb-2"><%= errors.zip %></span>
+                                </div>
+                            
+                                <div class="form-group col-md-4 mb-2">
+                                    <label class="form-label" for="age">Please choose your age</label>
+                                        <select class="form-select" id="form-custom-select" name="age">
+                                            <option value="0" disabled selected>Age</option>
+                                            <option value="20">20</option>
+                                            <option value="30">30</option>
+                                            <option value="40">40</option>
+                                            <option value="50">50</option>
+                                        </select>
+                                            <span class="form-error mb-2"><%= errors.age %></span>
+                                </div>
+
+                                <div class="form-group col-md-6 mb-2">
+                                    <label class="form-label mr-2" for="gender-male">Male</label>
+                                    <input type="radio" class="form-check-input" id="gender-male" name="gender" value="male">
+                                    <label class="form-label" for="gender-female">Female</label>
+                                    <input type="radio" class="form-check-input" id="gender-female" name="gender" value="female">
+                                        <span class="form-error mb-2"><%= errors.gender %></span>
+                                </div>
+                                
+                                <div class="form-group col-md-4 mb-2">
+                                    <label class="form-label mr-4" for="consent">I consent to the terms</label>
+                                    <input type="checkbox" class="form-check-input" id="consent" name="consent" value="consent">
+                                        <span class="form-error mb-2"><%= errors.consent %></span>
+                                </div>
+
+                                <div class="form-group col-md-10 mb-2">
+                                    <label class="form-label" for="bio">Add Personal Bio</label>
+                                    <textarea class="form-control mb-2" type="text" name="bio" id="bio" placeholder="Enter Bio"></textarea>
+                                    <span class="form-error mb-2"><%= errors.bio %></span>
+                                </div>
+                                
+                                <button type="submit" class="btn btn-primary">Sign Up!</button>
+                            </form>
 
                         <% }else{%>
-                
-                            <form class="bg-light rounded p-4" method="POST" action="/register">
-                             
-                          <div class="form-row">
-                            <div class="form-group col-md-8">
-                                <label class="form-label" for="fName">First Name</label>
-                                <input type="text" class="form-control" name="fName" placeholder="First Name">
+                            <!--this form displays on first iteration of the registration page-->
+                            <form class="bg-light rounded p-4 mb-4" id="registration-form" method="POST" action="/register">
                                 
-                                <label class="form-label" for="lName">Last Name</label>
-                                <input type="text" class="form-control" name="lName" placeholder="Last Name">
-                            </div>
-                          </div>
-                          <div class="form-group col-md-10">
-                            <label class="form-label" for="inputAddress">Address</label>
-                            <input type="text" class="form-control" name="inputAddress" placeholder="1234 Main St">
-                           
-                          </div>
-                          <div class="form-row">
-                            <div class="form-group col-md-4">
-                              <label class="form-label" for="inputCity">City</label>
-                              <input type="text" class="form-control" name="inputCity">
+                                <div class="form-group col-md-8 mb-2">
+                                    <label class="form-label" for="fName">First Name</label>
+                                    <input type="text" class="form-control" name="fName" placeholder="First Name">
+                                </div>
                             
-                            </div>
-                            <div class="form-group col-md-4">
-                              <label class="form-label" for="inputState">State</label>
-                              <input name="inputState" class="form-control">
+                                <div class="form-group col-md-8 mb-2">
+                                    <label class="form-label" for="lName">Last Name</label>
+                                    <input type="text" class="form-control" name="lName" placeholder="Last Name">
+                                </div>
                             
-                            </div>
-                            <div class="form-group col-md-2 mb-2">
-                              <label class="form-label" for="inputZip">Zip</label>
-                              <input type="text" class="form-control" name="inputZip">
-                            </div>
-                            <div class="form-group col-md-4 mb-2">
-                                <label class="form-label" for="age">Please choose an age range</label>
-                                    <select>
-                                        <option value="" disabled selected>Age</option>
-                                        <option value="20-30">20-30</option>
-                                        <option value="31-40">31-40</option>
-                                        <option value="41-50">41-49</option>
-                                        <option value="50+">50+</option>
+                                <div class="form-group col-md-8 mb-2">
+                                    <label class="form-label" for="address">Address</label>
+                                    <input type="text" class="form-control" name="address" placeholder="1234 Main St">
+                                </div>
+                            
+                            
+                                <div class="form-group col-md-4 mb-2">
+                                    <label class="form-label" for="city">City</label>
+                                    <input type="text" class="form-control" name="city" placeholder="City">
+                                </div>
+                        
+                                <div class="form-group col-md-4 mb-2">
+                                    <label class="form-label" for="state">State</label>
+                                    <input type="text" class="form-control" name="state"  placeholder="State">
+                                </div>
+                                
+                                <div class="form-group col-md-2 mb-2">
+                                    <label class="form-label" for="zip">Zip</label>
+                                    <input type="text" class="form-control" name="zip" placeholder="Zip Code">
+                                </div>
+                        
+                                <div class="form-group col-md-4 mb-2">
+                                    <label class="form-label" for="age">Please choose an age range</label>
+                                    <select class="form-select" id="form-custom-select" name="age">
+                                        <option value="0" selected>Age</option>
+                                        <option value="20">20</option>
+                                        <option value="30">30</option>
+                                        <option value="40">40</option>
+                                        <option value="50">50</option>
                                     </select>
-                            </div>
-                            <div class="form-group col-md-2 mb-2">
-                                <label for="age1">20</label>
-                                    <input type="radio" id="age1" name="age" value="20">
-                                <label for="age2">30</label>
-                                    <input type="radio" id="age2" name="age" value="30">
-                                <label for="age3">40</label>
-                                    <input type="radio" id="age3" name="age" value="40">
-  
-                            </div>
-                          </div>
-
-                          <button type="submit" class="btn btn-primary">Sign Up!</button>
-                        </form>
-                        <% } %>
+                                </div>
+                                
+                                <div class="form-group col-md-8 mb-2">
+                                    <label class="form-label" for="gender-male">Male</label>
+                                    <input type="radio" class="form-check-input" id="gender-male" name="gender" value="male">
+                                    <label class="form-label" for="gender-female">Female</label>
+                                    <input type="radio" class="form-check-input" id="gender-female" name="gender" value="female">
+                                </div>
+                                
+                                <div class="form-group col-md-4 mb-2">
+                                    <label class="form-label" for="consent">I consent to the terms</label>
+                                    <input type="checkbox" class="form-check-input" id="consent" name="consent" value="consent">
+                                </div>
                             
+                                <div class="form-group col-md-8 mb-2">
+                                    <label class="form-label" for="bio">Add Personal Bio</label>
+                                    <textarea class="form-control mb-4" type="text" name="bio" id="bio" placeholder="Enter Bio"></textarea>
+                                </div>
+                                
+                                <button type="submit" class="btn btn-primary">Sign Up!</button>
+                            </form>
+                        <% } %>                            
                     </div>
                 </div>
             </div>
         </section>
+
+        <footer class="footer text-faded text-center py-5">
+            <div class="container"><p class="m-0 small">Copyright &copy; Your Website 2022</p></div>
+        </footer>
+        <!-- Bootstrap core JS-->
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
+        <!-- Core theme JS-->
+        <script src="js/scripts.js"></script>
 
 
     </body>

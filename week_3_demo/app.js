@@ -43,7 +43,7 @@ router.get('/store', (req, res) => {
 router.get('/register', (req, res) => {
     res.render('pages/register', {pagename: 'Register'});
 })
-
+//validation and routing for small login form
 router.post('/login', (req, res) => {
     let errors = [];
     if(req.body.email == ""){
@@ -61,21 +61,54 @@ router.post('/login', (req, res) => {
     res.render('pages/index', {pagename: 'Home', errors:errors, success: "Success"});
 })
 
+//validation and routing for registration form
 router.post('/register', (req, res) => {
-    let errors = [];
+    //variables to hold errors and success values
+    let errors = {};
+    let success = "Success";
+    
+    if(!/^(?!\s*$)[^±!@£$%^&*_+§¡€#¢§¶•ªº«\\/<>?:;|=.,]{2,20}$/.test(req.body.fName)){
+        errors.fName = 'First Name is Not Valid!!';
+    }
+    if(!/^[^±!@£$%^&*_+§¡€#¢§¶•ªº«\\/<>?:;|=.,]{2,20}$/.test(req.body.lName)){
+        errors.lName = 'Last Name is Not Valid!!';
+    }
+    if(!/\d{1,}(\s{1}\w{1,})(\s{1}?\w{1,})+/.test(req.body.address)){
+        errors.address = 'Address is Not Valid!!';
+    }
+    if(!/^[a-zA-Z]+(?:[\s-'.&/][a-zA-Z]+)*(?:[.|\s])?(?:[\(a-z\)]{2,20})*$/.test(req.body.city)){
+        errors.city = 'City is Not Valid!!';
+    }
+    if(!/(A[KLRZ]|C[AOT]|D[CE]|FL|GA|HI|I[ADLN]|K[SY]|LA|M[ADEINOST]|N[CDEHJMVY]|O[HKR]|PA|RI|S[CD]|T[NX]|UT|V[AT]|W[AIVY])/.test(req.body.state.toUpperCase())){
+        errors.state = 'State is Not Valid!!';
+    }
+    if(!/^\b\d{5}(-\d{4})?\b$/.test(req.body.zip)){
+        errors.zip = 'State is Not Valid!!';
+    }
+    if(req.body.age == "0"){
+        errors.age = 'Please select your age!';
+    }
+    if(req.body.gender != "male" && req.body.gender != "female"){
+        errors.gender = "Please choose a gender";
+    }
+    if(req.body.consent != "consent"){
+        errors.consent = 'Please consent to register'
+    }
+    if(req.body.bio == "" || req.body.bio == "<script>" || /[^A-Za-z0-9 .'?!,@$#-_\n\r]/.test(req.body.bio)){
+        errors.bio = "Please enter a valid bio!";
+    }
+    
+    //checking the errors object for the existence of values and to pass them to the page 
+    if(Object.keys(errors).length > 0){
+        res.render('pages/register', {pagename: 'Home', errors:errors});
+    
+    //if errors is defined, but zero, the page is passed the success variable to show successful validation
+    } else {
+        res.render('pages/register', {pagename: 'Home', errors:errors, success:success});
+        console.log("app.js", success);
+    }
+    
+    
 
-    if(req.body.email == ""){
-        errors.push('Email is required');
-    }
-    if(req.body.password == ""){
-        errors.push('Password is required');
-    }
-    if(!/^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/.test(req.body.email)){
-        errors.push('Email is not valid!');
-    }
-    if(!/^([a-zA-Z0-9@*#]{8,15})$/.test(req.body.password)){
-        errors.push('Password is not valid!');
-    }
-    res.render('pages/register', {pagename: 'Home', errors:errors, success: "Success"});
-
+  
 })

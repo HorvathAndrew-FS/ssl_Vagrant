@@ -17,7 +17,6 @@
     </head>
     <body>
                   <%if(typeof(errors)!= "undefined") {%>
-                    <%- console.log(errors); %> 
                         <% for( let i = 0; i < errors.length; i++ ) { %>
                        <br><span id="error-display"><%=errors[i]%></span> 
                         <% } %>
