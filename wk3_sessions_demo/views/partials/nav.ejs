@@ -40,14 +40,12 @@
                                     <a class="nav-link text-uppercase" href="/register">Register</a>
                             <% } %>
                         </li>
+                        
                         <% if(typeof(sess) != "undefined" && sess.loggedIn == true) { %>
-                            <% if (pagename == 'Profile') {%>
-                                <li class="nav-item px-lg-4">
+                            <% console.log("nav if", sess.loggedIn) %>
+                            <li class="nav-item px-lg-4">
                                     <a class="nav-link text-uppercase" style="color:#e6a756" href="/profile">Profile</a>
-                                </li>
-                            <% } else { %>
-                                    <a class="nav-link text-uppercase" style="color:#e6a756" href="/profile">Profile</a>
-                            <% } %> 
+                                </li> 
                                 <li class="nav-item px-lg-4">
                                     <a class="nav-link text-uppercase" href="/logout">Logout</a>
                                 </li>
@@ -62,14 +60,10 @@
                 <input class="login-form-inputs" type="text" name="password" placeholder="Password">
                 <input id="login-form-button" type="submit">
             </form>
-        </div>
-            
-        <%if(typeof(errors)!= "undefined") {%>
+            <%if(typeof(errors)!= "undefined") {%>
             <% for( let i = 0; i < errors.length; i++ ) { %>
                 <br><span id="error-display"><%=errors[i]%></span> 
             <% } %>
         <% } %> 
-                
-
-
+        </div>
     </nav>

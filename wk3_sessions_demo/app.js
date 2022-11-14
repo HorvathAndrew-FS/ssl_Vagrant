@@ -6,6 +6,7 @@ const path = require("path");
 const url = require("url");
 
 const express = require("express");
+const session = require("express-session");
 const request = require("request");
 const bodyParser = require("body-parser");
 const ejs = require("ejs");
@@ -20,9 +21,12 @@ app.use(bodyParser.urlencoded({ extended: true }));
 app.use(express.static("public"));
 app.use("/", router);
 
-const session = require("express-session");
-app.use(session({secret:"secret", saveUninitialized: true, resave: true}));
-var sess;
+app.use(session({
+    secret:"secret",
+    saveUninitialized: true,
+    resave: true
+}));
+let sess;
 
 const port = 8080;
 app.listen(port, () => {
@@ -55,7 +59,9 @@ router.get('/register', (req, res) => {
 
 router.get("/profile", (req, res) => {
     sess = req.session;
+    console.log(sess);
     if(typeof(sess) == "undefined" || sess.loggedIn != true){
+        console.log("profile if");
         let errors = ["Not Authenticated User!"];
         res.render("index", {pagename: 'Home', errors: errors});
     }else{
@@ -69,6 +75,7 @@ router.get('/logout', (req, res) => {
         res.redirect('/');
     })
 })
+
 //validation and routing for small login form
 router.post('/login', (req, res) => {
     let errors = [];
@@ -81,15 +88,18 @@ router.post('/login', (req, res) => {
     if(!/^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/.test(req.body.email)){
         errors.push('Email is not valid!');
     }
-    if(!/^([a-zA-Z0-9@*#]{8,15})$/.test(req.body.password)){
+    if(!/^([a-zA-Z0-9@*#]{5,15})$/.test(req.body.password)){
         errors.push('Password is not valid!');
     }
-
     //if conditional here to match username and password
-    sess = req.session;
-    sess.loggedIn = true;
-    session.email = req.body.email;
-    res.render('pages/profile', {pagename: 'Profile', errors: errors, sess: sess});
+    if(req.body.email === "mike@aol.com" && req.body.password === "Abc123"){
+        sess = req.session;
+        // sess.loggedIn = true;
+        session.email = req.body.email;
+        res.render('pages/profile', {pagename: 'Profile', errors: errors, sess: sess});
+    }else{
+        res.render('pages/index', {pagename: 'Home', errors:errors, sess: sess})   
+    }
 })
 
 //validation and routing for registration form
