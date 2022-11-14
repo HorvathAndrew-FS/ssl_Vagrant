@@ -41,8 +41,8 @@
                             <% } %>
                         </li>
                         
-                        <% if(typeof(sess) != "undefined" && sess.loggedIn == true) { %>
-                            <% console.log("nav if", sess.loggedIn) %>
+                        <% if(typeof(sess) != "undefined" && typeof(loggedIn) == true) { %>
+                            <% console.log("nav if", logged.loggedIn) %>
                             <li class="nav-item px-lg-4">
                                     <a class="nav-link text-uppercase" style="color:#e6a756" href="/profile">Profile</a>
                                 </li> 

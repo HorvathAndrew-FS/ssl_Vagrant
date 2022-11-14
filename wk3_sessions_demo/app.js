@@ -27,6 +27,8 @@ app.use(session({
     resave: true
 }));
 let sess;
+let loggedIn = false;
+
 
 const port = 8080;
 app.listen(port, () => {
@@ -35,42 +37,43 @@ app.listen(port, () => {
 
 router.get('/', (req, res) => {
     sess = req.session;
-    res.render('pages/index', {pagename: 'Home', sess:sess});
+    res.render('pages/index', {pagename: 'Home', sess:sess, logged:loggedIn});
 })
 
 router.get('/about', (req, res) => {
     sess = req.session;
-    res.render('pages/about', {pagename: 'About', sess:sess});
+    res.render('pages/about', {pagename: 'About', sess:sess, logged:loggedIn});
 })
 
 router.get('/products', (req, res) => {
     sess = req.session;
-    res.render('pages/products', {pagename: 'Products', sess:sess});
+    res.render('pages/products', {pagename: 'Products', sess:sess, logged:loggedIn});
 })
 
 router.get('/store', (req, res) => {
     sess= req.session;
-    res.render('pages/store', {pagename: 'Store', sess:sess});
+    res.render('pages/store', {pagename: 'Store', sess:sess, logged:loggedIn});
 })
 router.get('/register', (req, res) => {
     sess = req.session;
-    res.render('pages/register', {pagename: 'Register', sess:sess});
+    res.render('pages/register', {pagename: 'Register', sess:sess, logged:loggedIn});
 })
 
 router.get("/profile", (req, res) => {
     sess = req.session;
     console.log(sess);
-    if(typeof(sess) == "undefined" || sess.loggedIn != true){
+    if(typeof(sess) == "undefined" || loggedIn != true){
         console.log("profile if");
         let errors = ["Not Authenticated User!"];
         res.render("index", {pagename: 'Home', errors: errors});
     }else{
-        res.render("pages/profile", {pagename: 'Profile', sess:sess});
+        res.render("pages/profile", {pagename: 'Profile', sess:sess, logged:loggedIn});
     }
 })
 
 router.get('/logout', (req, res) => {
     sess = req.session;
+    loggedIn;
     sess.destroy((err) => {
         res.redirect('/');
     })
@@ -94,11 +97,11 @@ router.post('/login', (req, res) => {
     //if conditional here to match username and password
     if(req.body.email === "mike@aol.com" && req.body.password === "Abc123"){
         sess = req.session;
-        // sess.loggedIn = true;
+        loggedIn = true;
         session.email = req.body.email;
-        res.render('pages/profile', {pagename: 'Profile', errors: errors, sess: sess});
+        res.render('pages/profile', {pagename: 'Profile', errors: errors, sess: sess, logged: loggedIn});
     }else{
-        res.render('pages/index', {pagename: 'Home', errors:errors, sess: sess})   
+        res.render('pages/index', {pagename: 'Home', errors:errors, sess: sess, logged: loggedIn})   
     }
 })
 
