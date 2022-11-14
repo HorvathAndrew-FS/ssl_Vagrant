@@ -20,28 +20,37 @@ app.use(bodyParser.urlencoded({ extended: true }));
 app.use(express.static("public"));
 app.use("/", router);
 
+const session = require("express-session");
+app.use(session({secret:"secret", saveUninitialized: true, resave: true}));
+const sess;
+
 const port = 8080;
 app.listen(port, () => {
   console.log(`Server is listening on port ${port}`);
 });
 
 router.get('/', (req, res) => {
-    res.render('pages/index', {pagename: 'Home'});
+    sess = req.session;
+    res.render('pages/index', {pagename: 'Home', sess:sess});
 })
 
 router.get('/about', (req, res) => {
-    res.render('pages/about', {pagename: 'About'});
+    sess = req.session;
+    res.render('pages/about', {pagename: 'About', sess:sess});
 })
 
 router.get('/products', (req, res) => {
-    res.render('pages/products', {pagename: 'Products'});
+    sess = req.session;
+    res.render('pages/products', {pagename: 'Products', sess:sess});
 })
 
 router.get('/store', (req, res) => {
-    res.render('pages/store', {pagename: 'Store'});
+    sess= req.session;
+    res.render('pages/store', {pagename: 'Store', sess:sess});
 })
 router.get('/register', (req, res) => {
-    res.render('pages/register', {pagename: 'Register'});
+    sess = req.session;
+    res.render('pages/register', {pagename: 'Register', sess:sess});
 })
 //validation and routing for small login form
 router.post('/login', (req, res) => {
