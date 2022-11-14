@@ -22,7 +22,7 @@ app.use("/", router);
 
 const session = require("express-session");
 app.use(session({secret:"secret", saveUninitialized: true, resave: true}));
-const sess;
+var sess;
 
 const port = 8080;
 app.listen(port, () => {
@@ -52,6 +52,23 @@ router.get('/register', (req, res) => {
     sess = req.session;
     res.render('pages/register', {pagename: 'Register', sess:sess});
 })
+
+router.get("/profile", (req, res) => {
+    sess = req.session;
+    if(typeof(sess) == "undefined" || sess.loggedIn != true){
+        let errors = ["Not Authenticated User!"];
+        res.render("index", {pagename: 'Home', errors: errors});
+    }else{
+        res.render("pages/profile", {pagename: 'Profile', sess:sess});
+    }
+})
+
+router.get('/logout', (req, res) => {
+    sess = req.session;
+    sess.destroy((err) => {
+        res.redirect('/');
+    })
+})
 //validation and routing for small login form
 router.post('/login', (req, res) => {
     let errors = [];
@@ -67,7 +84,12 @@ router.post('/login', (req, res) => {
     if(!/^([a-zA-Z0-9@*#]{8,15})$/.test(req.body.password)){
         errors.push('Password is not valid!');
     }
-    res.render('pages/index', {pagename: 'Home', errors:errors, success: "Success"});
+
+    //if conditional here to match username and password
+    sess = req.session;
+    sess.loggedIn = true;
+    session.email = req.body.email;
+    res.render('pages/profile', {pagename: 'Profile', errors: errors, sess: sess});
 })
 
 //validation and routing for registration form
