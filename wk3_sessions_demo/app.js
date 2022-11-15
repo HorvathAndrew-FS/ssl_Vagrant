@@ -9,14 +9,15 @@ const express = require("express");
 const request = require("request");
 const bodyParser = require("body-parser");
 const ejs = require("ejs");
+const cookieParser = require("cookie-parser");
 
 const app = express();
 const router = express.Router();
 
 app.set("view engine", "ejs");
 app.engine("ejs", require("ejs").__express);
-app.use(bodyParser.json());
-app.use(bodyParser.urlencoded({ extended: true }));
+app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
 app.use(express.static("public"));
 app.use("/", router);
 
@@ -27,7 +28,8 @@ app.use(session({
     resave: true
     }
 ));
-var sess = [];
+
+var sess;
 
 const port = 8080;
 app.listen(port, () => {
@@ -50,7 +52,7 @@ router.get('/products', (req, res) => {
 })
 
 router.get('/store', (req, res) => {
-    sess= req.session;
+    sess = req.session;
     res.render('pages/store', {pagename: 'Store', sess:sess});
 })
 router.get('/register', (req, res) => {
@@ -59,10 +61,11 @@ router.get('/register', (req, res) => {
 })
 
 router.get("/profile", (req, res) => {
+    console.log(req);
     sess = req.session;
-    
+
     if(typeof(sess) == "undefined" || sess.loggedIn != true){
-        console.log("profile if");
+       
         let errors = ["Not Authenticated User!"];
         res.render("pages/index", {pagename: 'Home', errors: errors});
 
@@ -96,8 +99,10 @@ router.post('/login', (req, res) => {
     if(req.body.email === "mike@aol.com" && req.body.password === "Abc123"){
         sess = req.session;
         sess = {
-            loggedIn:  true}
-        session.email = req.body.email;        
+            loggedIn:  true};
+        console.log(req.body);
+        console.log(sess);
+        sess.email = req.body.email;        
         res.render('pages/profile', {pagename: 'Profile', errors: errors, sess: sess});
     }else{
         res.render('pages/index', {pagename: 'Home', errors:errors, sess: sess})   
