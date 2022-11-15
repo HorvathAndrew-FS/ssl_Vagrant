@@ -27,8 +27,9 @@ app.use(session({
     resave: true
 }));
 let sess;
-let loggedIn = false;
-
+let logged = {
+    loggedIn: false
+}
 
 const port = 8080;
 app.listen(port, () => {
@@ -37,44 +38,44 @@ app.listen(port, () => {
 
 router.get('/', (req, res) => {
     sess = req.session;
-    res.render('pages/index', {pagename: 'Home', sess:sess, logged:loggedIn});
+    res.render('pages/index', {pagename: 'Home', sess:sess, log:logged});
 })
 
 router.get('/about', (req, res) => {
     sess = req.session;
-    res.render('pages/about', {pagename: 'About', sess:sess, logged:loggedIn});
+    res.render('pages/about', {pagename: 'About', sess:sess, log:logged});
 })
 
 router.get('/products', (req, res) => {
     sess = req.session;
-    res.render('pages/products', {pagename: 'Products', sess:sess, logged:loggedIn});
+    res.render('pages/products', {pagename: 'Products', sess:sess, log:logged});
 })
 
 router.get('/store', (req, res) => {
     sess= req.session;
-    res.render('pages/store', {pagename: 'Store', sess:sess, logged:loggedIn});
+    res.render('pages/store', {pagename: 'Store', sess:sess, log:logged});
 })
 router.get('/register', (req, res) => {
     sess = req.session;
-    res.render('pages/register', {pagename: 'Register', sess:sess, logged:loggedIn});
+    res.render('pages/register', {pagename: 'Register', sess:sess, log:logged});
 })
 
 router.get("/profile", (req, res) => {
     sess = req.session;
     console.log(sess);
-    if(typeof(sess) == "undefined" || loggedIn != true){
+    if(typeof(sess) == "undefined" || logged.loggedIn != true){
         console.log("profile if");
         let errors = ["Not Authenticated User!"];
-        res.render("index", {pagename: 'Home', errors: errors});
+        res.render("pages/index", {pagename: 'Home', errors: errors});
     }else{
-        res.render("pages/profile", {pagename: 'Profile', sess:sess, logged:loggedIn});
+        res.render("pages/profile", {pagename: 'Profile', sess:sess, log:logged});
     }
 })
 
 router.get('/logout', (req, res) => {
     sess = req.session;
-    loggedIn;
-    sess.destroy((err) => {
+    logged.loggedIn = false;
+    sess.destroy(function(err){
         res.redirect('/');
     })
 })
@@ -97,11 +98,11 @@ router.post('/login', (req, res) => {
     //if conditional here to match username and password
     if(req.body.email === "mike@aol.com" && req.body.password === "Abc123"){
         sess = req.session;
-        loggedIn = true;
+        logged.loggedIn = true;
         session.email = req.body.email;
-        res.render('pages/profile', {pagename: 'Profile', errors: errors, sess: sess, logged: loggedIn});
+        res.render('pages/profile', {pagename: 'Profile', errors: errors, sess: sess, log: logged});
     }else{
-        res.render('pages/index', {pagename: 'Home', errors:errors, sess: sess, logged: loggedIn})   
+        res.render('pages/index', {pagename: 'Home', errors:errors, sess: sess, log: logged})   
     }
 })
 
