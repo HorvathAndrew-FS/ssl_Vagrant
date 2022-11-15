@@ -6,7 +6,6 @@ const path = require("path");
 const url = require("url");
 
 const express = require("express");
-const session = require("express-session");
 const request = require("request");
 const bodyParser = require("body-parser");
 const ejs = require("ejs");
@@ -21,15 +20,14 @@ app.use(bodyParser.urlencoded({ extended: true }));
 app.use(express.static("public"));
 app.use("/", router);
 
+const session = require("express-session");
 app.use(session({
-    secret:"secret",
+    secret: "secret",
     saveUninitialized: true,
     resave: true
-}));
-let sess;
-let logged = {
-    loggedIn: false
-}
+    }
+));
+var sess = [];
 
 const port = 8080;
 app.listen(port, () => {
@@ -38,47 +36,46 @@ app.listen(port, () => {
 
 router.get('/', (req, res) => {
     sess = req.session;
-    res.render('pages/index', {pagename: 'Home', sess:sess, log:logged});
+    res.render('pages/index', {pagename: 'Home', sess:sess});
 })
 
 router.get('/about', (req, res) => {
     sess = req.session;
-    res.render('pages/about', {pagename: 'About', sess:sess, log:logged});
+    res.render('pages/about', {pagename: 'About', sess:sess});
 })
 
 router.get('/products', (req, res) => {
     sess = req.session;
-    res.render('pages/products', {pagename: 'Products', sess:sess, log:logged});
+    res.render('pages/products', {pagename: 'Products', sess:sess});
 })
 
 router.get('/store', (req, res) => {
     sess= req.session;
-    res.render('pages/store', {pagename: 'Store', sess:sess, log:logged});
+    res.render('pages/store', {pagename: 'Store', sess:sess});
 })
 router.get('/register', (req, res) => {
     sess = req.session;
-    res.render('pages/register', {pagename: 'Register', sess:sess, log:logged});
+    res.render('pages/register', {pagename: 'Register', sess:sess});
 })
 
 router.get("/profile", (req, res) => {
     sess = req.session;
-    console.log(sess);
-    if(typeof(sess) == "undefined" || logged.loggedIn != true){
+    
+    if(typeof(sess) == "undefined" || sess.loggedIn != true){
         console.log("profile if");
         let errors = ["Not Authenticated User!"];
         res.render("pages/index", {pagename: 'Home', errors: errors});
+
     }else{
-        res.render("pages/profile", {pagename: 'Profile', sess:sess, log:logged});
+        res.render("pages/profile", {pagename: 'Profile', sess:sess});
     }
-})
+    });
 
 router.get('/logout', (req, res) => {
     sess = req.session;
-    logged.loggedIn = false;
-    sess.destroy(function(err){
-        res.redirect('/');
-    })
-})
+    delete req.session;
+    res.redirect('/');
+});
 
 //validation and routing for small login form
 router.post('/login', (req, res) => {
@@ -95,14 +92,15 @@ router.post('/login', (req, res) => {
     if(!/^([a-zA-Z0-9@*#]{5,15})$/.test(req.body.password)){
         errors.push('Password is not valid!');
     }
-    //if conditional here to match username and password
+    
     if(req.body.email === "mike@aol.com" && req.body.password === "Abc123"){
         sess = req.session;
-        logged.loggedIn = true;
-        session.email = req.body.email;
-        res.render('pages/profile', {pagename: 'Profile', errors: errors, sess: sess, log: logged});
+        sess = {
+            loggedIn:  true}
+        session.email = req.body.email;        
+        res.render('pages/profile', {pagename: 'Profile', errors: errors, sess: sess});
     }else{
-        res.render('pages/index', {pagename: 'Home', errors:errors, sess: sess, log: logged})   
+        res.render('pages/index', {pagename: 'Home', errors:errors, sess: sess})   
     }
 })
 

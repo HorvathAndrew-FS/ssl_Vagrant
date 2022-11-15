@@ -40,15 +40,17 @@
                                     <a class="nav-link text-uppercase" href="/register">Register</a>
                             <% } %>
                         </li>
-                        <p style="font-size: 20px; color: red;"> <%= log.loggedIn %></p>
                         
-                            <li class="nav-item px-lg-4">
-                                    <a class="nav-link text-uppercase" style="color:#e6a756" href="/profile">Profile</a>
-                                </li> 
-                                <li class="nav-item px-lg-4">
-                                    <a class="nav-link text-uppercase" href="/logout">Logout</a>
-                                </li>
-                        
+                        <% if ((typeof(sess) != 'undefined' && sess.loggedIn ==true)) {%>
+                        <li class="nav-item px-lg-4">
+                            <a class="nav-link text-uppercase" style="color:#e6a756" href="/profile">Profile</a>
+                        </li>
+
+                        <li class="nav-item px-lg-4">
+                            <a class="nav-link text-uppercase" href="/logout">Logout</a>
+                        </li>
+                        <% } %> 
+
                     </ul>
                 </div>
             </div>
