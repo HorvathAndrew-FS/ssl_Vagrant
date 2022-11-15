@@ -5,31 +5,28 @@ const http = require("http");
 const path = require("path");
 const url = require("url");
 
-const express = require("express");
 const request = require("request");
 const bodyParser = require("body-parser");
 const ejs = require("ejs");
 const cookieParser = require("cookie-parser");
 
+const express = require('express');
+const session = require('express-session');
 const app = express();
+
+app.use(session({secret: 'secret',saveUninitialized: true,resave: true}));
+app.use(bodyParser.json());      
+app.use(bodyParser.urlencoded({extended: true}));
+
 const router = express.Router();
 
 app.set("view engine", "ejs");
 app.engine("ejs", require("ejs").__express);
-app.use(express.json());
-app.use(express.urlencoded({ extended: true }));
 app.use(express.static("public"));
 app.use("/", router);
 
-const session = require("express-session");
-app.use(session({
-    secret: "secret",
-    saveUninitialized: true,
-    resave: true
-    }
-));
-
-var sess;
+//global use variable 
+let sess;
 
 const port = 8080;
 app.listen(port, () => {
@@ -61,9 +58,8 @@ router.get('/register', (req, res) => {
 })
 
 router.get("/profile", (req, res) => {
-    console.log(req);
     sess = req.session;
-
+    console.log(sess.loggedIn);
     if(typeof(sess) == "undefined" || sess.loggedIn != true){
        
         let errors = ["Not Authenticated User!"];
@@ -76,8 +72,13 @@ router.get("/profile", (req, res) => {
 
 router.get('/logout', (req, res) => {
     sess = req.session;
-    delete req.session;
+    // delete req.session;
+    req.session.destroy((err) => {
+     if(err) {
+       return console.log(err);
+     }
     res.redirect('/');
+   });
 });
 
 //validation and routing for small login form
@@ -98,11 +99,11 @@ router.post('/login', (req, res) => {
     
     if(req.body.email === "mike@aol.com" && req.body.password === "Abc123"){
         sess = req.session;
-        sess = {
-            loggedIn:  true};
         console.log(req.body);
         console.log(sess);
-        sess.email = req.body.email;        
+        sess.email = req.body.email;
+        sess.loggedIn = true;
+        console.log(req.session)        
         res.render('pages/profile', {pagename: 'Profile', errors: errors, sess: sess});
     }else{
         res.render('pages/index', {pagename: 'Home', errors:errors, sess: sess})   
