@@ -27,7 +27,7 @@ app.use("/", router);
 
 //global use variable 
 let sess;
-let errors = [];
+let errors;
 
 const port = 8080;
 app.listen(port, () => {
@@ -60,10 +60,8 @@ router.get('/register', (req, res) => {
 
 router.get("/profile", (req, res) => {
     sess = req.session;
-    console.log("profile", sess.loggedIn);
     if(typeof(sess) == "undefined" || sess.loggedIn != true){
-       
-        errors.push = ("Not Authenticated User!");
+        errors.push("Not Authenticated User!");
         res.render("pages/index", {pagename: 'Home', errors: errors});
 
     }else{
@@ -83,7 +81,7 @@ router.get('/logout', (req, res) => {
 
 //validation and routing for small login form
 router.post('/login', (req, res) => {
-    
+    errors = [];
     if(req.body.email == ""){
         errors.push('Email is required');
     }
@@ -96,22 +94,20 @@ router.post('/login', (req, res) => {
     if(!/^([a-zA-Z0-9@*#]{5,15})$/.test(req.body.password)){
         errors.push('Password is not valid!');
     }    
-    if(req.body.email != "mike@aol.com" && req.body.password != "Abc123"){
+    if(req.body.email == 'mike@aol.com' && req.body.password == 'Abc123' ){ //&& req.body.password != 'Abc123'
+        sess = req.session;
+        sess.email = req.body.email;
+        sess.loggedIn = true;
+        sess.password = req.body.password;     
+        res.render('pages/profile', {pagename: 'Profile', errors: errors, sess: sess});
+    }else{ 
         sess = req.session;
         sess.email = req.body.email;
         sess.loggedIn = false;
         res.redirect('/profile');
-    }else{
-        sess = req.session;
-        console.log(req.body);
-        console.log(sess);
-        sess.email = req.body.email;
-        sess.loggedIn = true;
-        console.log(req.session)        
-        res.render('pages/profile', {pagename: 'Profile', errors: errors, sess: sess});
     }
    
-})
+});
 
 //validation and routing for registration form
 router.post('/register', (req, res) => {
