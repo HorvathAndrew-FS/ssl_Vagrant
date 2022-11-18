@@ -159,4 +159,18 @@ router.post('/register', (req, res) => {
         console.log("app.js", success);
     }
     
-})
+});
+
+router.post("/awsdata",function(req,res){
+var email = req.body.email; // Complete the missing pieces
+var password = req.body.password;// Complete the missing pieces
+
+request("https://dynamodb.us-west-2.amazonaws.com",{json:true},(err,response,body) => {
+        if(err){return console.log(err)};
+        if(body.Count>0){ 
+        //DISPLAY VALID RESPONSE
+        }else{ 
+        //DISPLAY ERROR RESPONSE
+        }
+    })
+});
