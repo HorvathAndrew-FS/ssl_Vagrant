@@ -1,16 +1,8 @@
 "use strict"
 
-const fs = require("fs");
-const http = require("http");
-const path = require("path");
-const url = require("url");
-
-const request = require("request");
-const bodyParser = require("body-parser");
-const ejs = require("ejs");
-const cookieParser = require("cookie-parser");
 
 const express = require('express');
+const bodyParser = require("body-parser");
 const app = express();
 
 app.use(bodyParser.json());      
