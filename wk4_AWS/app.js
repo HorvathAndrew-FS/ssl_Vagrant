@@ -11,23 +11,23 @@ const ejs = require("ejs");
 const cookieParser = require("cookie-parser");
 
 const express = require('express');
-const session = require('express-session');
 const app = express();
 
-app.use(session({secret: 'secret',saveUninitialized: true,resave: true}));
 app.use(bodyParser.json());      
 app.use(bodyParser.urlencoded({extended: true}));
 
 const router = express.Router();
 
-app.set("view engine", "ejs");
-app.engine("ejs", require("ejs").__express);
-app.use(express.static("public"));
 app.use("/", router);
+
+const port = 8080;
+app.listen(port, () => {
+  console.log(`Server is listening on port ${port}`);
+});
 
 router.get("/",(req,res) => {
 console.log("Here");
-res.send("Hello by Andrew");
+res.send("Andrew's Landing Page!");
 })
 
 router.get("/form",function(req,res){
