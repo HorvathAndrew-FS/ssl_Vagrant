@@ -25,10 +25,15 @@ app.engine("ejs", require("ejs").__express);
 app.use(express.static("public"));
 app.use("/", router);
 
+router.get("/",(req,res) => {
+console.log("Here");
+res.send("Hello by Andrew");
+})
+
 router.get("/form",function(req,res){
 const html = `
 <div id="login-form">
-            <form action="/login" method="POST">
+            <form action="/awsdata" method="POST">
                 <input class="login-form-inputs" type="text" name="email" placeholder="Email">
                 <input class="login-form-inputs" type="text" name="password" placeholder="Password">
                 <input id="login-form-button" type="submit">
@@ -38,14 +43,19 @@ res.send(html);
 })
 
 router.post("/awsdata",function(req,res){
-var email = req.body.email; // Complete the missing pieces
-var password = req.body.password;// Complete the missing pieces
-request("YOUR END POINT URL HERE",{json:true},(err,response,body)=>{
-if(err){return console.log(err)};
-if(body.Count>0){ 
-//DISPLAY VALID RESPONSE
-}else{ 
-//DISPLAY ERROR RESPONSE
-}
-})
+    const email = req.body.email; // Complete the missing pieces
+    const password = req.body.password;// Complete the missing pieces
+    
+    request("http://execute-api.us-east-2.amazonaws.com",{json:true},(err,response,body)=>{
+        if(err){
+            return console.log(err)
+        };
+        if(body.Count>0){ 
+            //DISPLAY VALID RESPONSE
+            console.log(body);
+        }else{ 
+            //DISPLAY ERROR RESPONSE
+            console.log("That wasnt right silly!!")
+        }
+    })
 })
