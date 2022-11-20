@@ -168,9 +168,9 @@ var password = req.body.password;// Complete the missing pieces
 request("https://dynamodb.us-west-2.amazonaws.com",{json:true},(err,response,body) => {
         if(err){return console.log(err)};
         if(body.Count>0){ 
-        //DISPLAY VALID RESPONSE
+            //DISPLAY VALID RESPONSE
         }else{ 
-        //DISPLAY ERROR RESPONSE
+            //DISPLAY ERROR RESPONSE
         }
     })
 });
