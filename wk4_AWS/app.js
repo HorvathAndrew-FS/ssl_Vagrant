@@ -39,17 +39,15 @@ router.post("/awsdata",function(req,res){
     const password = req.body.password;// Complete the missing pieces
     
     request(`https://e17dn9lia3.execute-api.us-east-2.amazonaws.com/prod?email=${email}&password=${password}`,{json:true},(err,response,body)=>{
-        console.log("request");
-        console.log("Count: " + body.Count);
         if(err){
             return console.log(err)
         };
         if(body.Count>0){ 
             //DISPLAY VALID RESPONSE
-            res.send(body);
+            res.send("Your login was successful!", body);
         }else{ 
             //DISPLAY ERROR RESPONSE
-            res.send("That wasnt right silly!!")
+            res.send("That is not an Authenticated User!")
         }
     })
 })
