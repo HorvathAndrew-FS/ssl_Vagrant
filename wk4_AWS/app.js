@@ -1,8 +1,8 @@
 "use strict"
 
-const http = require("http");
 const express = require('express');
 const bodyParser = require('body-parser');
+const request = require('request');
 const app = express();
 
 app.use(bodyParser.json());      
@@ -37,8 +37,10 @@ res.send(html);
 router.post("/awsdata",function(req,res){
     const email = req.body.email; // Complete the missing pieces
     const password = req.body.password;// Complete the missing pieces
+    
     console.log(email, password);
-    http.request("https://e17dn9lia3.execute-api.us-east-2.amazonaws.com/prod",{json:true},(err,response,body)=>{
+    
+    request("https://e17dn9lia3.execute-api.us-east-2.amazonaws.com",{json:true},(err,response,body)=>{
         console.log("request");
         if(err){
             return console.log(err)
