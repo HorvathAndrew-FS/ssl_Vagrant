@@ -38,10 +38,9 @@ router.post("/awsdata",function(req,res){
     const email = req.body.email; // Complete the missing pieces
     const password = req.body.password;// Complete the missing pieces
     
-    console.log(email, password);
-    
-    request("https://e17dn9lia3.execute-api.us-east-2.amazonaws.com",{json:true},(err,response,body)=>{
+    request(`https://e17dn9lia3.execute-api.us-east-2.amazonaws.com/prod?email=${email}&password=${password}`,{json:true},(err,response,body)=>{
         console.log("request");
+        console.log("Count: " + body.Count);
         if(err){
             return console.log(err)
         };
@@ -50,7 +49,7 @@ router.post("/awsdata",function(req,res){
             res.send(body);
         }else{ 
             //DISPLAY ERROR RESPONSE
-            res.send(body, "That wasnt right silly!!")
+            res.send("That wasnt right silly!!")
         }
     })
 })
