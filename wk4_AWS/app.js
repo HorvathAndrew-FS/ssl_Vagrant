@@ -44,10 +44,10 @@ router.post("/awsdata",function(req,res){
         };
         if(body.Count>0){ 
             //DISPLAY VALID RESPONSE
-            res.send("Your login was successful!", body);
+            res.send({message: "Your login was successful!", body: body});
         }else{ 
             //DISPLAY ERROR RESPONSE
-            res.send("That is not an Authenticated User!")
+            res.send('<h1>You are not Authenticated to view this page!</h1>');
         }
     })
 })
