@@ -47,10 +47,10 @@ router.post("/awsdata",function(req,res){
         };
         if(body.Count>0){ 
             //DISPLAY VALID RESPONSE
-            console.log(body);
+            res.send(body);
         }else{ 
             //DISPLAY ERROR RESPONSE
-            console.log("That wasnt right silly!!")
+            res.send(body, "That wasnt right silly!!")
         }
     })
 })
